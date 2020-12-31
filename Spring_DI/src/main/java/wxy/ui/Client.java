@@ -26,11 +26,12 @@ public class Client {
      */
     public static void main(String[] args) {
         ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
-        IAccountService as = (IAccountService) ac.getBean("accountService");
-        IAccountService as2 = (IAccountService) ac.getBean("accountService");
-
-        System.out.println(as == as2);
-
+//        IAccountService as = (IAccountService) ac.getBean("accountService");
 //        as.saveAccount();
+//        IAccountService as = (IAccountService) ac.getBean("accountService2");
+//        as.saveAccount();
+
+        IAccountService as = (IAccountService) ac.getBean("accountService3");
+        as.saveAccount();
     }
 }

@@ -1,21 +1,37 @@
 package wxy.service.impl;
 
-import wxy.dao.IAccountDao;
-import wxy.dao.impl.AccountDaoImpl;
 import wxy.service.IAccountService;
 
 import java.util.Date;
 
-public class AccountServiceImpl implements IAccountService {
+public class AccountServiceImpl2 implements IAccountService {
 
     //如果是经常变化的数据，并不适用于注入的方式
     private String name;
     private Integer age;
     private Date birthday;
 
-    public AccountServiceImpl(String name,Integer age,Date birthday){
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
