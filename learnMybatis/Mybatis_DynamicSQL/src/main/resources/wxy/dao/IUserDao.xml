@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wxy.dao.IUserDao">
+
+    <!-- 配置 查询结果的列名和实体类的属性名的对应关系 -->
+    <resultMap id="userMap" type="wxy.domain.User">
+        <!-- 主键字段的对应 -->
+        <id property="userId" column="id"></id>
+        <id property="userAddress" column="address"></id>
+        <id property="userSex" column="sex"></id>
+        <id property="userBirthday" column="birthday"></id>
+    </resultMap>
+
+    <!-- 了解内容：抽取重复的sql语句-->
+    <sql id="defaultUser">
+        select * from user
+    </sql>
+
+    <!-- 配置查询所有 -->
+    <select id = "findAll" resultMap="userMap">
+        <include refid="defaultUser"></include>
+    </select>
+
+<!--    根据id查询用户-->
+    <select id="findById" parameterType="INT" resultType="wxy.domain.User">
+        select * from user where id = #{uid};
+    </select>
+    
+<!--    根据名称模糊查询-->
+    <select id="findByName" parameterType="string" resultType="wxy.domain.User">
+        select * from user where username like #{name};
+    </select>
+
+<!--    更具queryVo的条件查询用户-->
+    <select id="findUserByVo" parameterType="wxy.domain.QueryVo" resultType="wxy.domain.User">
+        select * from user where username like #{user.userName}
+    </select>
+
+<!--    根据条件查询-->
+    <select id="findUserByCondition" resultMap="userMap" parameterType="wxy.domain.User">
+        select * from user
+        <where>
+            <if test="userName != null">
+                and username = #{userName}
+            </if>
+            <if test="userSex != null">
+                and sex = #{userSex}
+            </if>
+        </where>
+
+    </select>
+
+<!--    根据queryvo中的Id集合实现查询用户列表-->
+    <select id="findUserInIds" resultMap="userMap" parameterType="wxy.domain.QueryVo">
+        <include refid="defaultUser"></include>
+        <where>
+            <if test="ids != null and ids.size()>0">
+                <foreach collection="ids" open=" and id in (" close=")" item="uid" separator=",">
+                    #{uid}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

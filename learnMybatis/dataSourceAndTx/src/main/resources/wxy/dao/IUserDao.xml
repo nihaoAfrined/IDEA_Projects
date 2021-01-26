@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wxy.dao.IUserDao">
+    <!-- 配置查询所有 -->
+    <select id = "findAll" resultType="wxy.domain.User">
+        select * from user;
+    </select>
+
+<!--    根据id查询用户-->
+    <select id="findById" parameterType="INT" resultType="wxy.domain.User">
+        select * from user where id = #{uid};
+    </select>
+    
+<!--    根据名称模糊查询-->
+    <select id="findByName" parameterType="string" resultType="wxy.domain.User">
+        select * from user where username like #{name};
+    </select>
+    
+
+<!--    更具queryVo的条件查询用户-->
+    <select id="findUserByVo" parameterType="wxy.domain.QueryVo" resultType="wxy.domain.User">
+        select * from user where username like #{user.username}
+    </select>
+    
+<!--    根据条件查询-->
+    <select id="findUserByCondition" resultMap="userMap" parameterType="wxy.domain.User">
+        select * from user where 1=1
+        <if test="username != null">
+        and username = #{username}
+        </if>
+    </select>
+</mapper>
